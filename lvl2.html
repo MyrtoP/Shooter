@@ -66,8 +66,8 @@ body {
 
 		var ACCLERATION = 600;
 		var DRAG = 400;
-		var MAXSPEED = 400;
-		var ENEMY_SPEED = 300;
+		var MAXSPEED = 1000;
+		var ENEMY_SPEED = 800;
 
 
 
@@ -90,7 +90,7 @@ body {
 			//load second enemy
 			game.load.image('enemy2', 'assets/enemies/enemy3.png');
 			//adding enemy 2 bullets
-			game.load.image('enemyBullet', 'assets/bulles/blue-enemy-bullet.png');
+			game.load.image('enemyBullet', 'assets/bulles/bullet2.png');
 			
 			//add BIG enemy
 			game.load.image('boss', 'assets/enemies/sci_fi_crawler_3.png');
@@ -100,12 +100,12 @@ body {
 			game.load.bitmapFont('spacefont', 'assets/spacefont/font.png', 'assets/spacefont/font.fnt');
 			
 			//load weapon sprite upgreades
-			 game.load.image('upgrade','assets/mr_star.png');
-			 game.load.image('upgrade2','assets/star.png');
+			game.load.image('upgrade','assets/mr_star.png');
+			game.load.image('upgrade2','assets/star.png');
 			
 			//load music
-			this.load.audio('music', [ 'assets/audio/OST Infinity War - Thor arrives with the Stormbreaker -.mp3',
-			'assets/audio/HOST Infinity War - Thor arrives with the Stormbreaker -.mp3.ogg' ]);
+			this.load.audio('music', [ 'assets/audio/Hotblade - Manifold Love (High Quality Audio).mp3',
+			'assets/audio/Hotblade - Manifold Love (High Quality Audio).mp3.ogg' ]);
 		}
 
 		function create() {
@@ -133,7 +133,7 @@ body {
 			bossBullet = game.add.group();
 			bossBullet.enableBody = true;
 			bossBullet.physicsBodyType = Phaser.Physics.ARCADE;
-			bossBullet.createMultiple(20, 'bossBullet');
+			bossBullet.createMultiple(25, 'bossBullet');
 			bossBullet.callAll('crop', null, {x: 90, y: 0, width: 90, height: 40});
 			bossBullet.setAll('alpha', 0.9);
 			bossBullet.setAll('anchor.x', 0.5);
@@ -142,7 +142,7 @@ body {
 			bossBullet.setAll('checkWorldBounds', true);
 			bossBullet.forEach(function(bullet){
 				bullet.damageAmount = 20;
-				bullet.body.setSize(20, 20);
+				bullet.body.setSize(30, 30);
 			});
 
 			//  The hero!
@@ -161,13 +161,13 @@ body {
 				shipTrail.start(false, 5000, 10);
 			});
 			
-			//Upgrade 
+			//Upgrade Icon
 			upgrade = game.add.group();
 			upgrade.enableBody = true;
 			upgrade.physicsBodyType = Phaser.Physics.ARCADE;
 			upgrade.createMultiple(5,'upgrade');
 
-			// 2 Upgrade 
+			// //Upgrade Icon 2
 			upgrade2 = game.add.group();
 			upgrade2.enableBody = true;
 			upgrade2.physicsBodyType = Phaser.Physics.ARCADE;
@@ -177,7 +177,7 @@ body {
 			enemies = game.add.group();
 		    enemies.enableBody = true;
 		    enemies.physicsBodyType = Phaser.Physics.ARCADE;
-		    enemies.createMultiple(7, 'enemy1');
+		    enemies.createMultiple(8, 'enemy1');
 		    enemies.setAll('anchor.x', 0.5);
 		    enemies.setAll('anchor.y', 0.5);
    			enemies.setAll('scale.x', 0.5);
@@ -202,7 +202,7 @@ body {
 			enemyBullets = game.add.group();
 		    enemyBullets.enableBody = true;
 		    enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
-		    enemyBullets.createMultiple(10, 'enemyBullet');
+		    enemyBullets.createMultiple(15, 'enemyBullet');
 		    enemyBullets.callAll('crop', null, {x: 90, y: 0, width: 90, height: 70});
 		    enemyBullets.setAll('alpha', 0.9);
 		    enemyBullets.setAll('anchor.x', 0.5);
@@ -218,12 +218,12 @@ body {
 			senemies = game.add.group();
 		    senemies.enableBody = true;
 		    senemies.physicsBodyType = Phaser.Physics.ARCADE;
-		    senemies.createMultiple(3, 'enemy2');
+		    senemies.createMultiple(7, 'enemy2');
 		    senemies.setAll('anchor.x', 0.5);
 		    senemies.setAll('anchor.y', 0.5);
 		    senemies.setAll('scale.x', 0.5);
 		    senemies.setAll('scale.y', 0.5);
-		    senemies.setAll('angle',270);
+		    senemies.setAll('angle',180);
 		    senemies.setAll('outOfBoundsKill', true);
 		    senemies.setAll('checkWorldBounds', true);
 			//Add particle emitters for enemy trails
@@ -248,7 +248,7 @@ body {
 			boss.scale.x = 0.6;
 			boss.scale.y = 0.6;
 			game.physics.enable(boss, Phaser.Physics.ARCADE);
-			boss.body.maxVelocity.setTo(100, 80);
+			boss.body.maxVelocity.setTo(160, 90);
 			boss.dying = false;
 			boss.finishOff = function() {
 				if (!boss.dying) {
@@ -285,13 +285,13 @@ body {
             //  give some bonus health
             player.health = Math.min(100, player.health + 40);
             shields.render();
-			//if boss is dead go to next level
-		    window.open("https://myrtop.github.io/Shooter/lvl2.html","_self"); 
+            //if boss is dead go to menu
+		    window.open("https://myrtop.github.io/Shooter/menu.html","_self"); 
         }
     };
 
 			boss.fire =function(){
-				var bulletSpeed = 400;
+				var bulletSpeed = 900;
 				for (let i = 0; i < 3; ++i) {
                 enemyBullet = bossBullet.getFirstExists(false);
                 if (enemyBullet && this.x && this.y) {
@@ -306,10 +306,10 @@ body {
 			boss.update = function() {
 			if (!boss.alive) return;
 
-			if (boss.x > 700) {
+			if (boss.x > 900) {
 				boss.body.acceleration.x = -30;
 			}
-			if (boss.x < 700) {
+			if (boss.x < 1200) {
 				boss.body.acceleration.x = 30;
 			}
 			if (boss.y > player.y + 50) {
@@ -323,8 +323,8 @@ body {
 			//  Squish and rotate boss for illusion of "banking"
 			var bank = boss.body.velocity.y / MAXSPEED;
 			boss.scale.y = 0.6 - Math.abs(bank) / 3;
-			boss.angle = - bank * 20;
-			
+            boss.angle = - bank * 20;
+
 			booster.y = boss.y + -5 * bank;
 			booster.x = boss.x + 10 * Math.abs(bank) - boss.height / 2;
 
@@ -475,10 +475,6 @@ body {
 			//  Fire bullet
 			if (player.alive && (fireButton.isDown || game.input.activePointer.isDown)) {
 				fireBullet();
-				var audio = new Audio('assets/audio/bulletSound.mp3');
-            		audio.play()
-				
-				
 			}
 
 			//  Keep the shipTrail lined up with the ship
@@ -506,6 +502,7 @@ body {
 			game.physics.arcade.overlap(player, upgrade, playerhitsupgrade, null, this);
 			game.physics.arcade.overlap(player, upgrade2, playerhitsupgrade2, null, this);
 
+
 			 //  Game over?
 			if (! player.alive && gameOver.visible === false) {
 				gameOver.visible = true;
@@ -525,9 +522,6 @@ body {
 					}
 				}
 			}
- 
- 			
-
 		}
 		
 		function render() {
@@ -539,7 +533,7 @@ body {
 				case 1:
 	    	    //  To avoid them being allowed to fire too fast we set a time limit
 	    	    if (game.time.now > bulletTimer){
-				var BULLET_SPEED = 400;
+				var BULLET_SPEED = 600;
 				var BULLET_SPACING = 250;
 				//  Grab the first bullet we can from the pool
 				var bullet = bullets.getFirstExists(false);
@@ -558,6 +552,7 @@ body {
 
 					var audio = new Audio('assets/audio/bulletSound.mp3');
             		audio.play()
+					audio.volume=0.2
 				}
 			}
 			break;
@@ -589,7 +584,7 @@ body {
 			break;
 			case 3:
 				if(game.time.now > bulletTimer){
-					var BULLET_SPEED = 400;
+					var BULLET_SPEED = 600;
 				var BULLET_SPACING = 550;
 
 
@@ -614,11 +609,12 @@ body {
 				}
 						var audio = new Audio('assets/audio/bulletSound.mp3');
             			audio.play()
+						audio.volume=0.2
 				}
 			break;
 			case 4:
 				if(game.time.now > bulletTimer){
-					var BULLET_SPEED = 400;
+					var BULLET_SPEED = 600;
 				var BULLET_SPACING = 550;
 
 				for (var i = 0; i < 7; i++) {
@@ -644,6 +640,7 @@ body {
 				}
 						var audio = new Audio('assets/audio/bulletSound.mp3');
             			audio.play()
+						audio.volume=0.2
 				}
 			break;
 			}
@@ -681,7 +678,7 @@ body {
 		// SECOND enemy and ship rotation  
 	 	function  launchSecondEnemy() {
 			var startingY = (game.rnd.integerInRange(100, game.height));
-			var HorizontalSpeed = -180;
+			var HorizontalSpeed = -100;
 			var spread = 60;
 			var frequency = 70;
 			var HorizontalSpacing = 70;
@@ -697,7 +694,7 @@ body {
 					enemy.body.velocity.x = HorizontalSpeed;
 
 					 //  Set up firing
-					var bulletSpeed = 400;
+					var bulletSpeed = 600;
 					var firingDelay = 2000;
 					enemy.bullets = 4;
 					enemy.lastShot = 0;
@@ -710,7 +707,7 @@ body {
 					//  Squish and rotate ship for illusion of "banking"
 					bank = Math.cos((this.x + 60) / frequency)
 					this.scale.y = 0.5 - Math.abs(bank) / 8;
-					this.angle = 345 - bank * 2;
+					this.angle = 345- bank * 2;
 
 					//  Fire
 					enemyBullet = enemyBullets.getFirstExists(false);
@@ -743,7 +740,7 @@ body {
 	function launchBoss() {
 			boss.reset(800,game.rnd.integerInRange(game.width, 300));
 			booster.start(false, 1000, 10);
-			boss.health = 501;
+			boss.health = 601;
 			bossBulletTimer = game.time.now + 5000;
 		}
 	
@@ -822,19 +819,19 @@ body {
 	    score += enemy.damageAmount * 10;
 	    scoreText.render();	
 
-       	if (score >= 800 && player.weaponLevel<2) {
+       	if (score >= 1200 && player.weaponLevel<2) {
              	launchUpgrade()
 		}
 
-		if (score >= 1000 && player.weaponLevel<3){
-			 launchUpgrade2()
+		if (score >= 1600 && player.weaponLevel<3){
+			launchUpgrade2()
 		}
 
 		//  Pacing
 		//  Enemies come quicker as score increases
-		EnemySpacing *= 0.9;
-		//  Second enemies come in after a score of 600
-		 if (!senemyLaunched && score > 600) {
+		EnemySpacing *= 0.12;
+		//  Second enemies come in after a score of 500
+		 if (!senemyLaunched && score > 500) {
 		      senemyLaunched  = true;
 		      launchSecondEnemy();
 		      //  Slow green enemies down now that there are other enemies
@@ -842,7 +839,7 @@ body {
 		  }
 
 		//  Launch boss
-		if (!bossLaunched && score > 2200) {
+		if (!bossLaunched && score > 3400) {
         EnemySpacing = 5000;
         SEnemySpacing = 12000;
         //  dramatic pause before boss
@@ -909,7 +906,7 @@ body {
 
 		upgrade2.callAll('kill');
 		game.time.events.remove(upgrade2);
-		
+
 		boss.kill();
 		booster.kill();
 
